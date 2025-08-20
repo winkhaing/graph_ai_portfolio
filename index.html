@@ -1,11 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Win Khaing - Generative AI Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        // Set theme on page load to avoid flash of unstyled content
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+        // Configure Tailwind for class-based dark mode
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -17,6 +29,9 @@
         .section-gradient {
             background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
         }
+        .dark .dark-section-gradient {
+             background: linear-gradient(135deg, #1e293b, #334155);
+        }
         .card-hover {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -26,16 +41,23 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200 transition-colors duration-300">
 
     <!-- Header -->
-    <header class="gradient-bg text-white shadow-lg">
+    <header class="gradient-bg text-white shadow-lg sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-3xl font-bold text-yellow-400">Win Khaing</h1>
-            <div class="text-white font-bold">
-                <a href="#about-me" class="px-4 hover:underline">About Me</a>
-                <a href="#about-course" class="px-4 hover:underline">The Course</a>
-                <a href="#submissions" class="px-4 hover:underline">My Submissions</a>
+            <div class="flex items-center">
+                <div class="text-white font-bold hidden sm:block">
+                    <a href="#about-me" class="px-4 hover:underline">About Me</a>
+                    <a href="#about-course" class="px-4 hover:underline">The Course</a>
+                    <a href="#submissions" class="px-4 hover:underline">My Submissions</a>
+                </div>
+                <button id="theme-toggle" type="button" class="text-white hover:bg-blue-800/50 focus:outline-none rounded-lg text-sm p-2.5 ml-4">
+                    <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                    <span class="sr-only">Toggle theme</span>
+                </button>
             </div>
         </nav>
     </header>
@@ -45,13 +67,13 @@
 
         <!-- Hero Section -->
         <section class="text-center my-16">
-            <h2 class="text-5xl font-bold text-blue-800 mb-4">Generative AI for Work & Research</h2>
-            <p class="text-xl text-slate-600">A portfolio of my journey through the 8-week course by GRAPH.</p>
+            <h2 class="text-5xl font-bold text-blue-800 dark:text-blue-300 mb-4">Generative AI for Work & Research</h2>
+            <p class="text-xl text-slate-600 dark:text-slate-400">A portfolio of my journey through the 8-week course by GRAPH.</p>
         </section>
 
         <!-- About Me Section -->
-        <section id="about-me" class="mb-20 p-8 rounded-xl shadow-md section-gradient">
-            <h3 class="text-4xl font-bold text-center mb-10 text-blue-700">About Me</h3>
+        <section id="about-me" class="mb-20 p-8 rounded-xl shadow-md section-gradient dark-section-gradient">
+            <h3 class="text-4xl font-bold text-center mb-10 text-blue-700 dark:text-blue-400">About Me</h3>
             <div class="flex flex-col md:flex-row items-center">
                 <div class="md:w-2/3">
                     <h4 class="text-2xl font-bold mb-2">Mr. Win Khaing</h4>
@@ -62,11 +84,11 @@
                         This course on Generative AI is a fantastic opportunity to expand my skills in Large Language Models and apply them to my work and research for enhanced productivity and innovation.
                     </p>
                     <div class="flex flex-wrap gap-x-4 gap-y-2">
-                        <a href="https://winkhaing.com/" target="_blank" class="text-blue-600 hover:underline">Website</a>
-                        <a href="https://www.linkedin.com/in/drwinkhaing/" target="_blank" class="text-blue-600 hover:underline">LinkedIn</a>
-                        <a href="https://scholar.google.com/citations?user=OlCptfMAAAAJ&hl=en" target="_blank" class="text-blue-600 hover:underline">Google Scholar</a>
-                        <a href="https://www.researchgate.net/profile/Win-Khaing" target="_blank" class="text-blue-600 hover:underline">ResearchGate</a>
-                        <a href="https://orcid.org/0000-0003-1636-1807" target="_blank" class="text-blue-600 hover:underline">ORCID</a>
+                        <a href="https://winkhaing.com/" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">Website</a>
+                        <a href="https://www.linkedin.com/in/drwinkhaing/" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">LinkedIn</a>
+                        <a href="https://scholar.google.com/citations?user=OlCptfMAAAAJ&hl=en" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">Google Scholar</a>
+                        <a href="https://www.researchgate.net/profile/Win-Khaing" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">ResearchGate</a>
+                        <a href="https://orcid.org/0000-0003-1636-1807" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">ORCID</a>
                     </div>
                 </div>
                  <div class="md:w-1/3 flex justify-center mt-8 md:mt-0">
@@ -77,95 +99,83 @@
 
         <!-- About the Course Section -->
         <section id="about-course" class="mb-20">
-            <h3 class="text-4xl font-bold text-center mb-10 text-blue-700">About the Course</h3>
+            <h3 class="text-4xl font-bold text-center mb-10 text-blue-700 dark:text-blue-400">About the Course</h3>
             <div class="text-center mb-10">
                  <p class="text-lg">This 8-week live cohort course, "Generative AI for Work & Research," focuses on leveraging no-code AI tools to automate tasks and boost productivity.</p>
             </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Module 1 -->
-                <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+                <!-- Module Cards -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md card-hover">
                     <h5 class="text-xl font-bold mb-2">Module 1: Websites, Documents & Presentations</h5>
                     <p>Understanding LLMs, generating text, creating websites with no-code tools, and designing presentations with AI assistants.</p>
                 </div>
-                <!-- Module 2 -->
-                <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md card-hover">
                     <h5 class="text-xl font-bold mb-2">Module 2: AI-Automated Data Analysis</h5>
                     <p>Using AI tools for data analysis, file manipulation, and creating automated reports and dashboards.</p>
                 </div>
-                <!-- Module 3 -->
-                <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md card-hover">
                     <h5 class="text-xl font-bold mb-2">Module 3: GenAI for Research & Text Analysis</h5>
                     <p>AI techniques for literature search, text analysis, knowledge synthesis, and extracting insights from large text collections.</p>
                 </div>
-                <!-- Module 4 -->
-                <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md card-hover">
                     <h5 class="text-xl font-bold mb-2">Module 4: Custom GPTs and Chatbots</h5>
                     <p>Building custom chatbots for research assistance and knowledge management using advanced LLM architecture.</p>
                 </div>
-                <!-- Module 5 -->
-                <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md card-hover">
                     <h5 class="text-xl font-bold mb-2">Module 5: AI for Task Automation</h5>
                     <p>Automating repetitive research tasks, setting up email automations, and designing AI agents for complex workflows.</p>
                 </div>
-                <!-- Module 6 -->
-                <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md card-hover">
                     <h5 class="text-xl font-bold mb-2">Module 6: GenAI for Communication and Outreach</h5>
                     <p>Using AI for research dissemination, creating visuals, and producing explanatory content with minimal effort.</p>
                 </div>
             </div>
             <div class="text-center mt-12">
-                <a href="https://thegraphcourses.org/aiw/" target="_blank" class="bg-blue-600 text-white py-3 px-6 rounded-full hover:bg-blue-700 transition text-lg font-semibold shadow-md">More Details</a>
+                <a href="https://thegraphcourses.org/aiw/" target="_blank" class="bg-blue-600 text-white py-3 px-6 rounded-full hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition text-lg font-semibold shadow-md">More Details</a>
             </div>
         </section>
 
         <!-- My Weekly Submissions Section -->
         <section id="submissions" class="mb-20">
-            <h3 class="text-4xl font-bold text-center mb-10 text-blue-700">My Weekly Submissions</h3>
+            <h3 class="text-4xl font-bold text-center mb-10 text-blue-700 dark:text-blue-400">My Weekly Submissions</h3>
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Week 1 -->
-                <div class="section-gradient p-6 rounded-lg shadow-md text-center card-hover">
+                <!-- Submission Cards -->
+                <div class="section-gradient dark-section-gradient p-6 rounded-lg shadow-md text-center card-hover">
                     <h5 class="text-2xl font-bold mb-3">Week 1</h5>
                     <p class="mb-4">Project Website</p>
                     <a href="#" class="bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition">View Submission</a>
                 </div>
-                <!-- Week 2 -->
-                <div class="section-gradient p-6 rounded-lg shadow-md text-center card-hover">
+                <div class="section-gradient dark-section-gradient p-6 rounded-lg shadow-md text-center card-hover">
                     <h5 class="text-2xl font-bold mb-3">Week 2</h5>
                     <p class="mb-4">Automated Dashboard</p>
                     <a href="#" class="bg-gray-400 text-white py-2 px-4 rounded-full cursor-not-allowed">Coming Soon</a>
                 </div>
-                <!-- Week 3 -->
-                <div class="section-gradient p-6 rounded-lg shadow-md text-center card-hover">
+                <div class="section-gradient dark-section-gradient p-6 rounded-lg shadow-md text-center card-hover">
                     <h5 class="text-2xl font-bold mb-3">Week 3</h5>
                     <p class="mb-4">Literature Review</p>
                     <a href="#" class="bg-gray-400 text-white py-2 px-4 rounded-full cursor-not-allowed">Coming Soon</a>
                 </div>
-                <!-- Week 4 -->
-                <div class="section-gradient p-6 rounded-lg shadow-md text-center card-hover">
+                <div class="section-gradient dark-section-gradient p-6 rounded-lg shadow-md text-center card-hover">
                     <h5 class="text-2xl font-bold mb-3">Week 4</h5>
                     <p class="mb-4">Custom Chatbot</p>
                     <a href="#" class="bg-gray-400 text-white py-2 px-4 rounded-full cursor-not-allowed">Coming Soon</a>
                 </div>
-                 <!-- Week 5 -->
-                <div class="section-gradient p-6 rounded-lg shadow-md text-center card-hover">
+                <div class="section-gradient dark-section-gradient p-6 rounded-lg shadow-md text-center card-hover">
                     <h5 class="text-2xl font-bold mb-3">Week 5</h5>
                     <p class="mb-4">Automation Flow</p>
                     <a href="#" class="bg-gray-400 text-white py-2 px-4 rounded-full cursor-not-allowed">Coming Soon</a>
                 </div>
-                 <!-- Week 6 -->
-                <div class="section-gradient p-6 rounded-lg shadow-md text-center card-hover">
+                <div class="section-gradient dark-section-gradient p-6 rounded-lg shadow-md text-center card-hover">
                     <h5 class="text-2xl font-bold mb-3">Week 6</h5>
                     <p class="mb-4">Communication Assets</p>
                     <a href="#" class="bg-gray-400 text-white py-2 px-4 rounded-full cursor-not-allowed">Coming Soon</a>
                 </div>
-                 <!-- Week 7 -->
-                <div class="section-gradient p-6 rounded-lg shadow-md text-center card-hover">
+                <div class="section-gradient dark-section-gradient p-6 rounded-lg shadow-md text-center card-hover">
                     <h5 class="text-2xl font-bold mb-3">Week 7</h5>
                     <p class="mb-4">Capstone Project</p>
                     <a href="#" class="bg-gray-400 text-white py-2 px-4 rounded-full cursor-not-allowed">Coming Soon</a>
                 </div>
-                 <!-- Week 8 -->
-                <div class="section-gradient p-6 rounded-lg shadow-md text-center card-hover">
+                <div class="section-gradient dark-section-gradient p-6 rounded-lg shadow-md text-center card-hover">
                     <h5 class="text-2xl font-bold mb-3">Week 8</h5>
                     <p class="mb-4">Final Presentation</p>
                     <a href="#" class="bg-gray-400 text-white py-2 px-4 rounded-full cursor-not-allowed">Coming Soon</a>
@@ -179,6 +189,55 @@
     <footer class="gradient-bg text-white text-center py-6">
         <p>&copy; 2025 Win Khaing. All rights reserved.</p>
     </footer>
+
+    <script>
+        // JavaScript for theme toggling
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const themeToggleButton = document.getElementById('theme-toggle');
+
+        // Function to set the theme state
+        function setTheme() {
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIcon.classList.add('hidden');
+                document.documentElement.classList.add('dark');
+            } else {
+                themeToggleDarkIcon.classList.remove('hidden');
+                themeToggleLightIcon.classList.add('hidden');
+                document.documentElement.classList.remove('dark');
+            }
+        }
+
+        // Set initial theme on load
+        setTheme();
+
+        themeToggleButton.addEventListener('click', function() {
+            // toggle icons
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            // if set via local storage previously
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            // if NOT set via local storage previously
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+    </script>
 
 </body>
 </html>
