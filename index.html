@@ -168,7 +168,7 @@
                 <div class="section-gradient dark-section-gradient p-6 rounded-lg shadow-md text-center card-hover">
                     <h5 class="text-2xl font-bold mb-3">Week 4</h5>
                     <p class="mb-4">Custom AI Research Assistant</p>
-                    <button onclick="window.botpressWebChat.send({ type: 'trigger' })" class="bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition">Click AI Agent</button>
+                    <button id="launch-chatbot-btn" class="bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition">Click AI Agent</button>
                 </div>
                 <div class="section-gradient dark-section-gradient p-6 rounded-lg shadow-md text-center card-hover">
                     <h5 class="text-2xl font-bold mb-3">Week 5</h5>
@@ -199,8 +199,8 @@
     <div id="chatbot-toast" class="fixed bottom-5 right-5 bg-white dark:bg-slate-800 p-4 rounded-lg shadow-lg flex items-center gap-4 z-50 cursor-pointer">
         <div class="text-lg">🤖</div>
         <div>
-            <p class="font-bold text-slate-800 dark:text-white">AI Research Assistant</p>
-            <p class="text-sm text-slate-600 dark:text-slate-300">Click me to ask about my work!</p>
+            <p class="font-bold text-slate-800 dark:text-white">AI Assistant 🤖🤖🤖</p>
+            <p class="text-sm text-slate-600 dark:text-slate-300">Click me to ask 🤖🤖🤖</p>
         </div>
         <button id="close-toast" class="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white">&times;</button>
     </div>
@@ -212,7 +212,7 @@
     </footer>
 
     <script>
-        // JavaScript for theme toggling
+        // --- THEME TOGGLING LOGIC ---
         const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
         const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
         const themeToggleButton = document.getElementById('theme-toggle');
@@ -228,7 +228,6 @@
                 document.documentElement.classList.remove('dark');
             }
         }
-
         setTheme();
 
         themeToggleButton.addEventListener('click', function() {
@@ -253,35 +252,55 @@
             }
         });
 
-        // Chatbot Toast Logic
-        const toast = document.getElementById('chatbot-toast');
-        const closeToastButton = document.getElementById('close-toast');
+        // --- CHATBOT & TOAST LOGIC ---
+        // Wait for the DOM to be fully loaded before running any script that interacts with it
+        document.addEventListener('DOMContentLoaded', function() {
+            const toast = document.getElementById('chatbot-toast');
+            const closeToastButton = document.getElementById('close-toast');
+            const launchChatbotButton = document.getElementById('launch-chatbot-btn');
 
-        // Show the toast after a delay, if it hasn't been closed before in this session
-        if (!sessionStorage.getItem('toastDismissed')) {
-            setTimeout(() => {
-                toast.classList.add('show');
-            }, 2000);
-        }
+            // A safe function to open the chatbot that checks if Botpress is ready first
+            function openChatbot() {
+                if (window.botpressWebChat && typeof window.botpressWebChat.send === 'function') {
+                    window.botpressWebChat.send({ type: 'trigger' });
+                } else {
+                    console.error("Botpress web chat is not initialized yet.");
+                }
+            }
 
-        // Function to close the toast
-        function dismissToast() {
-            toast.classList.remove('show');
-            sessionStorage.setItem('toastDismissed', 'true');
-        }
+            // --- Toast Logic ---
+            if (toast && closeToastButton) {
+                 // Show the toast after a delay, if it hasn't been closed before in this session
+                if (!sessionStorage.getItem('toastDismissed')) {
+                    setTimeout(() => {
+                        toast.classList.add('show');
+                    }, 2000);
+                }
 
-        // Close toast when 'x' is clicked
-        closeToastButton.addEventListener('click', function(e) {
-            e.stopPropagation(); // Prevent the toast click from triggering
-            dismissToast();
+                // Function to close the toast
+                function dismissToast() {
+                    toast.classList.remove('show');
+                    sessionStorage.setItem('toastDismissed', 'true');
+                }
+
+                // Close toast when 'x' is clicked
+                closeToastButton.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Prevent the toast click from triggering the chatbot
+                    dismissToast();
+                });
+
+                // Open chatbot when toast body is clicked
+                toast.addEventListener('click', function() {
+                    openChatbot();
+                    dismissToast();
+                });
+            }
+
+            // --- Week 4 Button Logic ---
+            if (launchChatbotButton) {
+                launchChatbotButton.addEventListener('click', openChatbot);
+            }
         });
-
-        // Open chatbot when toast body is clicked
-        toast.addEventListener('click', function() {
-            window.botpressWebChat.send({ type: 'trigger' });
-            dismissToast();
-        });
-
     </script>
     
     <!-- Botpress Scripts -->
